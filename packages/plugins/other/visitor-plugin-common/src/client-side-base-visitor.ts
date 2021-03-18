@@ -8,6 +8,7 @@ import {
   FragmentSpreadNode,
   GraphQLSchema,
   Kind,
+  stripIgnoredCharacters,
 } from 'graphql';
 import { DepGraph } from 'dependency-graph';
 import gqlTag from 'graphql-tag';
@@ -288,7 +289,7 @@ export class ClientSideBaseVisitor<
   }
 
   protected _prepareDocument(documentStr: string): string {
-    return documentStr;
+    return this.config.stripIgnoredCharacters ? stripIgnoredCharacters(documentStr) : documentStr;
   }
 
   protected _gql(node: FragmentDefinitionNode | OperationDefinitionNode): string {

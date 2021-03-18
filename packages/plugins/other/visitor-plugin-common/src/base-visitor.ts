@@ -30,6 +30,7 @@ export interface ParsedConfig {
   fragmentImports: ImportDeclaration<FragmentImport>[];
   immutableTypes: boolean;
   useTypeImports: boolean;
+  stripIgnoredCharacters: boolean;
 }
 
 export interface RawConfig {
@@ -147,6 +148,19 @@ export interface RawConfig {
    * ```
    */
   useTypeImports?: boolean;
+  /**
+   * @name stripIgnoredCharacters
+   * @type boolean
+   * @default false
+   * @description  Strips characters that are not significant to the validity or execution of a GraphQL document
+   *
+   * @example
+   * ```yml
+   * config:
+   *   stripIgnoredCharacters: true
+   * ```
+   */
+  stripIgnoredCharacters?: boolean;
 
   /* The following configuration are for preset configuration and should not be set manually (for most use cases...) */
   /**
@@ -178,6 +192,7 @@ export class BaseVisitor<TRawConfig extends RawConfig = RawConfig, TPluginConfig
       addTypename: !rawConfig.skipTypename,
       nonOptionalTypename: !!rawConfig.nonOptionalTypename,
       useTypeImports: !!rawConfig.useTypeImports,
+      stripIgnoredCharacters: !!rawConfig.stripIgnoredCharacters,
       ...((additionalConfig || {}) as any),
     };
 

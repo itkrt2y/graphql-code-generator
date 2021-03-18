@@ -636,4 +636,20 @@ export function useSubmitRepositoryMutation() {
       expect(content.content).toContain(`export function useTest(`);
     });
   });
+
+  it('should support stripIgnoredCharacters', async () => {
+    const docs = [{ location: '', document: basicDoc }];
+    const content = (await plugin(
+      schema,
+      docs,
+      { stripIgnoredCharacters: true },
+      {
+        outputFile: 'graphql.tsx',
+      }
+    )) as Types.ComplexPluginOutput;
+
+    expect(content.content).toBeSimilarStringTo(
+      'export const TestDocument = gql`query test{feed{id commentCount repository{full_name html_url owner{avatar_url}}}}`;'
+    );
+  });
 });
